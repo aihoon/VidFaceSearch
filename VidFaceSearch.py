@@ -9,7 +9,7 @@ from enum import Enum
 import numpy as np
 from tqdm import tqdm
 import cv2
-# import shutil
+import shutil
 from sklearn.metrics.pairwise import cosine_similarity
 import flask
 
@@ -186,10 +186,10 @@ class VidFaceSearch:
             keys = list(vid_content_meta['annotation'].keys())
             fps = float(keys[1]) - float(keys[0])
             vid_meta = vid_content_meta['video']
-            rst_vid_fname = rst_vid_fname.replace('.mp4', '.avi')
+            rst_vid_fname_local = "test.avi"
 
             # noinspection PyUnresolvedReferences
-            rst_vid_inst = cv2.VideoWriter(rst_vid_fname, cv2.VideoWriter_fourcc(*'MPEG'),
+            rst_vid_inst = cv2.VideoWriter(rst_vid_fname_local, cv2.VideoWriter_fourcc(*'MPEG'),
                                            fps, (int(vid_meta['width']), int(vid_meta['height'])))
 
         ret = self.run_core(
@@ -206,8 +206,12 @@ class VidFaceSearch:
 
         vid_inst.release()
         if rst_vid_fname:
-            rst_vid_inst.release()
-            uVid.convert_avi_to_mp4(rst_vid_fname)
+            try:
+                rst_vid_inst.release()
+                uVid.convert_avi_to_mp4("test.avi")
+                shutil.copy2("test.mp4", rst_vid_fname)
+            except all:
+                self.logger.error(f" @ Error: something wrong in result video file")
 
         return ret
 
