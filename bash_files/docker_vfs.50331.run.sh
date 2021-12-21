@@ -1,5 +1,5 @@
 
-curl -X POST http://0.0.0.0:47001/run \
+curl -X POST http://0.0.0.0:50331/run \
   -H "Content-Type: application/json" \
    -d '{"vid_content_meta_url": "/mnt/SHARED/VTR/S#_5_6_7_8/Output/S#_5_6_7_8.vcm.json",
         "src_vid_url":"/mnt/SHARED/VTR/S#_5_6_7_8/Input/S#_5_6_7_8.mp4",
